@@ -30,8 +30,10 @@ class Grid {
   }
 
   get areAllCover() {
-    for (let i = 0; i < this.rows; i++) {
-      for (let j = 0; j < this.columns; j++) {
+    const { rows, columns } = this;
+
+    for (let i = 0; i < rows; i++) {
+      for (let j = 0; j < columns; j++) {
         if (this.cells[i][j].isVisible) return false;
       }
     }
@@ -39,11 +41,12 @@ class Grid {
   }
 
   get advance() {
+    const { rows, columns } = this;
     const res = [];
 
-    for (let i = 0; i < this.rows; i++) {
+    for (let i = 0; i < rows; i++) {
       res.push([]);
-      for (let j = 0; j < this.columns; j++) {
+      for (let j = 0; j < columns; j++) {
         if (this.cells[i][j].isVisible)
           res[i].push(this.cells[i][j].aroundMines);
         else res[i].push(`?-${this.cells[i][j].status}`);
@@ -54,9 +57,10 @@ class Grid {
   }
 
   get missingUncover() {
+    const { rows, columns } = this;
     let count = 0;
-    for (let i = 0; i < this.rows; i++) {
-      for (let j = 0; j < this.columns; j++) {
+    for (let i = 0; i < rows; i++) {
+      for (let j = 0; j < columns; j++) {
         if (!this.cells[i][j].isVisible) count++;
       }
     }

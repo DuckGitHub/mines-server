@@ -18,7 +18,7 @@ class Grid {
   }
 
   get totalCells() {
-    return this.rows + this.columns;
+    return this.rows * this.columns;
   }
 
   get totalMines() {

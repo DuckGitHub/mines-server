@@ -17,16 +17,16 @@ app.use(cors());
 app.get("/api/game/new/:rows/:columns", createGame);
 
 // endpoint for set mark when user use click
-app.post("/api/game/:gameId/:row/:col", cellClick);
+app.get("/api/game/:gameId/:row/:col", cellClick);
 
 // endpoint for set mark when user use right click(rc)
-app.post("/api/game/:gameId/rc/:row/:col", cellRightClick);
+app.get("/api/game/:gameId/rc/:row/:col", cellRightClick);
 
 // endpoint for load game exist in storage(GAMES)
 app.get("/api/game/:gameId", loadGame);
 
-// app.listen(3000);
+app.listen(3000);
 
-// console.log("Server on PORT 3000");
+console.log("Server on PORT 3000");
 
 module.exports = app;

@@ -29,6 +29,15 @@ class Grid {
     this.mines = a;
   }
 
+  get areAllCover() {
+    for (let i = 0; i < this.rows; i++) {
+      for (let j = 0; j < this.columns; j++) {
+        if (this.cells[i][j].isVisible) return false;
+      }
+    }
+    return true;
+  }
+
   get advance() {
     const res = [];
 

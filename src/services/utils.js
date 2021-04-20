@@ -38,13 +38,11 @@ const initializingGrid = (rows, columns) => {
 
   const grid = new Grid(rows, columns, result);
 
-  loadMines(grid);
-
   return grid;
 };
 
 // put mines on grid
-const loadMines = (grid) => {
+const loadMines = (grid, row, col) => {
   const totalMines = Math.ceil(grid.totalCells / 3);
   grid.totalMines = parseInt(totalMines);
 
@@ -57,7 +55,11 @@ const loadMines = (grid) => {
       randomRowValue = parseInt(Math.random() * grid.totalRows);
       randomColValue = parseInt(Math.random() * grid.totalColumns);
 
-      if (grid.cells[randomRowValue][randomColValue].hasMine) continue;
+      if (
+        grid.cells[randomRowValue][randomColValue].hasMine ||
+        (randomRowValue == row && randomColValue == col)
+      )
+        continue;
 
       grid.cells[randomRowValue][randomColValue].putMine = MINE;
       hasMine = true;

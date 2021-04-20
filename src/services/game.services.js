@@ -6,6 +6,7 @@ const {
   initializingGrid,
   uncoverCell,
   freeSlots,
+  loadMines,
 } = require("./utils");
 
 // storage games
@@ -14,7 +15,7 @@ const GAMES = [];
 // create and initialize game
 const createGame = (req, res) => {
   const { rows, columns } = req.params;
-  console.log("entreee aca");
+
   const newId = generateGameId(GAMES);
 
   if (!newId) {
@@ -53,6 +54,10 @@ const cellClick = (req, res) => {
 
   const actualGame = findGameById(gameId);
   const grid = actualGame.gameGrid;
+
+  if (grid.areAllCover) {
+    loadMines(grid, row, col);
+  }
 
   if (grid.cells[row][col].hasMine) {
     actualGame.gameStatus = GAME_STATUS.OVER;

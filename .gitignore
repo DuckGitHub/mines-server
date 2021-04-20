@@ -3,3 +3,4 @@ node_modules
 serverless.yml
 lambda.js
 public
+mines-cli

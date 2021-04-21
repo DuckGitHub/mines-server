@@ -10,7 +10,7 @@ const {
 } = require("./utils");
 
 // storage games
-const GAMES = [];
+const GAMES = new Map();
 
 // create and initialize game
 const createGame = (req, res) => {
@@ -35,7 +35,7 @@ const createGame = (req, res) => {
   const newGrid = initializingGrid(parseInt(rows), parseInt(columns));
   const newGame = new Game(newGrid, newId);
 
-  GAMES.push(newGame);
+  GAMES.set(newId, newGame);
 
   res.json({
     id: newGame.gameId,
@@ -53,6 +53,10 @@ const cellClick = (req, res) => {
   let freeSlot = false;
 
   const actualGame = findGameById(gameId);
+
+  if (!actualGame) {
+    return res.json({ found: false, rows: 0, colums: 0, table: [] });
+  }
   const grid = actualGame.gameGrid;
 
   if (grid.areAllCover) {
@@ -88,6 +92,10 @@ const cellRightClick = (req, res) => {
   const { row, col, gameId } = req.params;
 
   const actualGame = findGameById(gameId);
+
+  if (!actualGame) {
+    return res.json({ found: false, rows: 0, colums: 0, table: [] });
+  }
 
   const cell = actualGame.grid.cells[row][col];
   const cellStatus = cell.actualStatus;
@@ -134,15 +142,9 @@ const loadGame = (req, res) => {
   });
 };
 
-// find game in storage GAME by id, if found return Game else null
+// find game in storage GAME by id, if found return Game else undefined
 const findGameById = (gameId) => {
-  let foundGame = null;
-
-  for (const game of GAMES) {
-    if (game.gameId == gameId) foundGame = game;
-  }
-
-  return foundGame;
+  return GAMES.get(parseInt(gameId));
 };
 
 module.exports = {

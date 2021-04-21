@@ -12,7 +12,11 @@ const MINE = 9;
 const generateGameId = (games) => {
   let newId = parseInt(Math.random() * (MAX_GAMES - 1) + 1);
   let attemps = 0;
-  const gameIds = games.map((game) => game.gameId);
+  const gameIds = [];
+
+  for (const [id, data] of games) {
+    gameIds.push(id);
+  }
 
   while (gameIds.includes(newId)) {
     newId = parseInt(Math.random() * 10 + 1);

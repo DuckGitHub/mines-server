@@ -130,7 +130,7 @@ const uncoverCell = (grid, row, col) => {
 const freeSlots = (games) => {
   games.forEach((game, index) => {
     if (game.gameStatus & (GAME_STATUS.WIN | GAME_STATUS.OVER))
-      games.splice(index, 1);
+      games.delete(game.gameId);
   });
 };
 

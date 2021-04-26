@@ -7,13 +7,13 @@ const app = express();
 // manage cors
 app.use(cors());
 
-// api routes
-app.use("/api/game", router);
-
 // set port
 app.set("port", process.env.PORT || 3000);
 
-// port run app(localhost)
+// api routes
+app.use("/api/game", router);
+
+// port run app
 app.listen(app.get("port"));
 
 console.log(`Server on PORT ${app.get("port")}`);

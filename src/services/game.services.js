@@ -49,9 +49,7 @@ const cellClick = (req, res) => {
   
   const grid = actualGame.gameGrid;
 
-  if (grid.areAllCover) {
-    loadMines(grid, row, col);
-  }
+  if (grid.areAllCover) loadMines(grid, row, col);
 
   if (grid.cells[row][col].hasMine) {
     actualGame.gameStatus = GAME_STATUS.OVER;

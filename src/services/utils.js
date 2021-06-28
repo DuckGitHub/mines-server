@@ -1,31 +1,8 @@
 const { Cell, Grid } = require("../models");
-const { UNCOVER_CELL } = require("../models/Cell");
-const { GAME_STATUS } = require("../models/Game");
-
-// limit of games
-const MAX_GAMES = 10;
+const { UNCOVER_CELL } = require("../configs");
 
 // number identify mines
 const MINE = 9;
-
-// generate a diferent game's id(1 to MAX_GAMES). Return null if has not free slot else game id
-/*const generateGameId = (games) => {
-  let newId = parseInt(Math.random() * (MAX_GAMES - 1) + 1);
-  let attemps = 0;
-  const gameIds = [];
-
-  for (const [id, data] of games) {
-    gameIds.push(id);
-  }
-
-  while (gameIds.includes(newId)) {
-    newId = parseInt(Math.random() * 10 + 1);
-    attemps++;
-    if (attemps === MAX_GAMES) return null;
-  }
-
-  return newId;
-};*/
 
 // initilize and load mines on grid and return grid ready
 const initializingGrid = (rows, columns) => {
@@ -126,19 +103,10 @@ const uncoverCell = (grid, row, col) => {
   }
 };
 
-// free slot of storage(GAMES)
-const freeSlots = (games) => {
-  games.forEach((game, index) => {
-    if (game.gameStatus & (GAME_STATUS.WIN | GAME_STATUS.OVER))
-      games.delete(game.gameId);
-  });
-};
-
 module.exports = {
   //generateGameId,
   initializingGrid,
   uncoverCell,
-  freeSlots,
   loadMines,
   startAt,
   endAt,

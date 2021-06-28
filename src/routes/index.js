@@ -6,7 +6,11 @@ const {
   cellClick,
   cellRightClick,
   loadGame,
+  allGameIds
 } = require("../services/game.services");
+
+
+router.get('/allIds', allGameIds)
 
 // endpoint for new game
 router.get("/new/:rows/:columns", createGame);
@@ -19,5 +23,6 @@ router.get("/:gameId/rc/:row/:col", cellRightClick);
 
 // endpoint for load game exist in storage(GAMES)
 router.get("/:gameId", loadGame);
+
 
 module.exports = router;

@@ -1,42 +1,32 @@
-const { Game } = require("../models");
-const { GAME_STATUS, MIN_COLUMNS, MIN_ROWS } = require("../models/Game");
-const { MARK_CELL } = require("../models/Cell");
+const { Game, GameStorage } = require("../models");
+const { GAME_STATUS, MIN_COLUMNS, MIN_ROWS, MARK_CELL } = require("../configs");
+
 const {
-  generateGameId,
   initializingGrid,
   uncoverCell,
-  freeSlots,
   loadMines,
 } = require("./utils");
 
-// storage games
-const GAMES = new Map();
+const gameStorage = new GameStorage()
 
 // create and initialize game
 const createGame = (req, res) => {
   const { rows, columns } = req.params;
 
-  const newId = generateGameId(GAMES);
-
-  if (!newId) {
-    res.json({
-      error: "All servers busy. Please try later",
-    });
-    return;
-  }
-
   if (rows < MIN_ROWS || columns < MIN_COLUMNS) {
-    res.json({
+    
+    res.status(400).json({
       error: `Minimun allowed Rows: ${MIN_ROWS}, Columns: ${MIN_COLUMNS}`,
     });
+
     return;
   }
 
   const newGrid = initializingGrid(parseInt(rows), parseInt(columns));
-  const newGame = new Game(newGrid, newId);
+  const newGame = new Game(newGrid);
 
-  GAMES.set(newId, newGame);
-
+  gameStorage.addGame(newGame);
+  
   res.json({
     id: newGame.gameId,
     status: newGame.gameStatus,
@@ -52,11 +42,11 @@ const cellClick = (req, res) => {
   const { row, col, gameId } = req.params;
   let freeSlot = false;
 
-  const actualGame = findGameById(gameId);
+  const actualGame = gameStorage.findGameById(gameId);
 
-  if (!actualGame) {
+  if (!actualGame)
     return res.json({ found: false, rows: 0, colums: 0, table: [] });
-  }
+  
   const grid = actualGame.gameGrid;
 
   if (grid.areAllCover) {
@@ -84,14 +74,15 @@ const cellClick = (req, res) => {
     mines: grid.totalMines,
   });
 
-  if (freeSlot) freeSlots(GAMES);
+  if (freeSlot) gameStorage.removeGame(gameId)
 };
 
 // update mark cover cell, without mark, flag, doubtful
 const cellRightClick = (req, res) => {
   const { row, col, gameId } = req.params;
 
-  const actualGame = findGameById(gameId);
+  //const actualGame = findGameById(gameId);
+  const actualGame = gameStorage.findGameById(gameId);
 
   if (!actualGame) {
     return res.json({ found: false, rows: 0, colums: 0, table: [] });
@@ -125,7 +116,8 @@ const cellRightClick = (req, res) => {
 // load exist Game by id and return Game advance
 const loadGame = (req, res) => {
   const { gameId } = req.params;
-  const actualGame = findGameById(gameId);
+
+  const actualGame = gameStorage.findGameById(gameId);
 
   if (!actualGame)
     return res.json({ found: false, rows: 0, colums: 0, table: [] });
@@ -142,14 +134,15 @@ const loadGame = (req, res) => {
   });
 };
 
-// find game in storage GAME by id, if found return Game else undefined
-const findGameById = (gameId) => {
-  return GAMES.get(parseInt(gameId));
-};
+const allGameIds = (req,res) => {
+  gameStorage.showAllGames()
+  res.json({message: 'success'})
+}
 
 module.exports = {
   createGame,
   cellClick,
   cellRightClick,
   loadGame,
+  allGameIds
 };

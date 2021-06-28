@@ -1,15 +1,10 @@
-const GAME_STATUS = {
-  ACTIVE: 0x1,
-  WIN: 0x2,
-  OVER: 0x4,
-};
-
-const MIN_ROWS = 6;
-const MIN_COLUMNS = 6;
+const {GAME_STATUS} = require('../configs')
 
 class Game {
-  constructor(grid, id) {
-    this.id = id;
+  //constructor(grid, id) {
+  constructor(grid) {
+    // this.id = id;
+    this.id = new Date().valueOf();
     this.grid = grid;
     this.status = GAME_STATUS.ACTIVE;
   }
@@ -31,9 +26,4 @@ class Game {
   }
 }
 
-module.exports = {
-  Game,
-  GAME_STATUS,
-  MIN_COLUMNS,
-  MIN_ROWS,
-};
+module.exports = Game;

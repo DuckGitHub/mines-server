@@ -9,7 +9,7 @@ const MAX_GAMES = 10;
 const MINE = 9;
 
 // generate a diferent game's id(1 to MAX_GAMES). Return null if has not free slot else game id
-const generateGameId = (games) => {
+/*const generateGameId = (games) => {
   let newId = parseInt(Math.random() * (MAX_GAMES - 1) + 1);
   let attemps = 0;
   const gameIds = [];
@@ -25,7 +25,7 @@ const generateGameId = (games) => {
   }
 
   return newId;
-};
+};*/
 
 // initilize and load mines on grid and return grid ready
 const initializingGrid = (rows, columns) => {
@@ -135,7 +135,7 @@ const freeSlots = (games) => {
 };
 
 module.exports = {
-  generateGameId,
+  //generateGameId,
   initializingGrid,
   uncoverCell,
   freeSlots,

@@ -1,15 +1,4 @@
-const UNCOVER_CELL = {
-  TRUE: 0x10,
-  FALSE: 0x20,
-};
-
-const MARK_CELL = {
-  NONE: 0x1,
-  FLAG: 0x2,
-  DOUBTFUL: 0x4,
-
-  ANY: 0x7,
-};
+const {MARK_CELL} = require('../configs')
 
 class Cell {
   constructor(row, col) {
@@ -45,8 +34,4 @@ class Cell {
   }
 }
 
-module.exports = {
-  Cell,
-  UNCOVER_CELL,
-  MARK_CELL,
-};
+module.exports = Cell

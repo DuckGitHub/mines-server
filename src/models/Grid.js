@@ -1,4 +1,4 @@
-const { MARK_CELL } = require("./Cell");
+const { MARK_CELL } = require("../configs");
 
 class Grid {
   constructor(rows, columns, cells) {
